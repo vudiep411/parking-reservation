@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS parking_spot (
     id VARCHAR(255) PRIMARY KEY,
     status BOOLEAN,
     vehicle_type VARCHAR(255),
-    rate DECIMAL(10, 2),
+    rate DECIMAL(10, 2)
 );
 
 --changeset vu_diep_3:1
