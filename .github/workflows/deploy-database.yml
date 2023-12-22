@@ -1,0 +1,30 @@
+name: Deploy database schema
+on: 
+    workflow_call:
+        secrets:
+            DATABASE_URL:
+                required: true
+            DATABASE_USERNAME:
+                required: true
+            PASSWORD:
+                required: true
+
+permissions:
+  id-token: write
+  contents: read   
+
+
+jobs:
+  liquidbase:
+    runs-on: ubuntu-latest
+    name: Deploy Schema
+    steps:
+      - uses: actions/checkout@v2
+      - uses: liquibase/liquibase-github-action@v2
+        with:
+          operation: 'update'
+          classpath: './database'
+          changeLogFile: 'changelog.sql'
+          username: ${{ secrets.DATABASE_USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          url: jdbc:${{ secrets.DATABASE_URL }}    

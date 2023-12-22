@@ -1,0 +1,17 @@
+name: Deploy Production
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-database:
+    uses: ./.github/workflows/deploy-database.yml
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
