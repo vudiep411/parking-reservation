@@ -12,11 +12,24 @@ jobs:
   conditional-job-check-files:
     uses: ./.github/workflows/conditional-check.yml
     
-  deploy-database:
+  deploy-database-reservation:
     uses: ./.github/workflows/deploy-database.yml
     needs: [ conditional-job-check-files]
     if: needs.conditional-job-check-files.outputs.db_changed == 'True'
+    with:
+      DB_PATH: './database/reservation-api'
     secrets:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
+
+  deploy-database-users-auth:
+    uses: ./.github/workflows/deploy-database.yml
+    needs: [ conditional-job-check-files]
+    if: needs.conditional-job-check-files.outputs.db_changed == 'True'
+    with:
+      DB_PATH: './database/auth-api'
+    secrets:
+      DATABASE_URL: ${{ secrets.USER_AUTH_DB_URL }}
+      DATABASE_USERNAME: ${{ secrets.USER_AUTH_DB_USERNAME }}
+      PASSWORD: ${{ secrets.USER_AUTH_DB_PASSWORD }}

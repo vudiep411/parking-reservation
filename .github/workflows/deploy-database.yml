@@ -1,14 +1,18 @@
 name: Deploy database schema
 
 on: 
-    workflow_call:
-        secrets:
-            DATABASE_URL:
-                required: true
-            DATABASE_USERNAME:
-                required: true
-            PASSWORD:
-                required: true
+  workflow_call:
+    inputs:
+      DB_PATH:
+        type: string
+        required: true
+    secrets:
+      DATABASE_URL:
+        required: true
+      DATABASE_USERNAME:
+        required: true
+      PASSWORD:
+        required: true
 
 permissions:
   id-token: write
@@ -24,7 +28,7 @@ jobs:
       - uses: liquibase/liquibase-github-action@v2
         with:
           operation: 'update'
-          classpath: './database'
+          classpath: ${{ inputs.DB_PATH }}
           changeLogFile: 'changelog.sql'
           username: ${{ secrets.DATABASE_USERNAME }}
           password: ${{ secrets.PASSWORD }}

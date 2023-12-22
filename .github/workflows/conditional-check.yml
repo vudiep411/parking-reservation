@@ -11,7 +11,7 @@ on:
         value: ${{ jobs.conditional-job-check-files.outputs.ig_changed }}
 
       tf_changed:
-        description: "condtional job file check for pipeline path"
+        description: "condtional job file check for terraform path"
         value: ${{ jobs.conditional-job-check-files.outputs.tf_changed }}
 
 
