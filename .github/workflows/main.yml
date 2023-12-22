@@ -9,8 +9,13 @@ permissions:
   contents: read
 
 jobs:
+  conditional-job-check-files:
+    uses: ./.github/workflows/conditional-check.yml
+    
   deploy-database:
     uses: ./.github/workflows/deploy-database.yml
+    needs: [ conditional-job-check-files]
+    if: needs.conditional-job-check-files.outputs.db_changed == 'True'
     secrets:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}

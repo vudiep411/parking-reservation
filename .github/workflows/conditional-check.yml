@@ -1,0 +1,56 @@
+name: Conditional checks
+on:
+  workflow_call:
+    outputs:
+      db_changed:
+        description: "condtional job file check for database path"
+        value: ${{ jobs.conditional-job-check-files.outputs.db_changed }}
+
+      ig_changed:
+        description: "condtional job file check for ig path"
+        value: ${{ jobs.conditional-job-check-files.outputs.ig_changed }}
+
+      tf_changed:
+        description: "condtional job file check for pipeline path"
+        value: ${{ jobs.conditional-job-check-files.outputs.tf_changed }}
+
+
+permissions:
+  id-token: write
+  contents: read    # This is required for actions/checkout@v2
+
+jobs:
+  conditional-job-check-files:
+    name: condtional-file-checks
+    runs-on: 'ubuntu-latest'
+    # Declare outputs for environment vars set in Powershell step
+    outputs:
+      db_changed: ${{ env.db_changed }}    # database file changes
+      ig_changed: ${{ env.ig_changed }}    # integration file changes
+      tf_changed: ${{ env.tf_changed }}    # pipeline file changes
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Checkout as many commits as needed for the diff
+        fetch-depth: 2
+    - shell: pwsh
+      id: check_file_changed
+      run: |
+        # Diff HEAD with the previous commit
+        $diff = git diff --name-only HEAD^ HEAD
+
+        # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
+        $DBDiff = $diff | Where-Object { $_ -match '^database' -or $_ -match '.md$' }
+        $HasDBDiff = $DBDiff.Length -gt 0
+
+        $IGDiff = $diff | Where-Object { $_ -match '^integration/' -or $_ -match '.md$' }
+        $HasIGDiff = $IGDiff.Length -gt 0
+
+        $TFDiff = $diff | Where-Object { $_ -match '^terraform' -or $_ -match '.md$' }
+        $HasTFDiff = $TFDiff.Length -gt 0
+
+        # Set the output to environment variables 
+        echo "db_changed=$HasDBDiff" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        echo "ig_changed=$HasIGDiff" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        echo "tf_changed=$HasTFDiff" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
