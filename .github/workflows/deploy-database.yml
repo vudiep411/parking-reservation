@@ -1,4 +1,5 @@
 name: Deploy database schema
+
 on: 
     workflow_call:
         secrets:
