@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
--- Change Set 1
---changeset vu_diep:1
+
+--changeset vu_diep_1:1
 CREATE TABLE IF NOT EXISTS user (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS user (
     name VARCHAR(100) NOT NULL
 );
 
--- Change Set 2
---changeset vu_diep:1
+--changeset vu_diep_2:1
 CREATE TABLE IF NOT EXISTS parking_spot (
     id VARCHAR(255) PRIMARY KEY,
     status BOOLEAN,
@@ -19,8 +18,7 @@ CREATE TABLE IF NOT EXISTS parking_spot (
     rate DECIMAL(10, 2),
 );
 
--- Change Set 3
---changeset vu_diep:1
+--changeset vu_diep_3:1
 CREATE TABLE IF NOT EXISTS reservation (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
