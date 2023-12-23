@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { swaggerSpec, swaggerUIOptions } from './swagger.js'
 import swaggerUi from 'swagger-ui-express'
+import auth from "./middleware/auth.js"
+
 
 dotenv.config()
 
@@ -33,5 +35,13 @@ app.get('/', (req, res) => {
 
 app.use('/login', login_route)
 app.use('/register', register_route)
+
+// Pass in JWT Token for Authorization Headers to get a user info form this endpoint
+app.get('/test', auth, (req, res) => {
+  return res.status(200).json({
+      ...req.user,
+      auth: true
+  })
+})
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`))

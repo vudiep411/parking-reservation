@@ -1,4 +1,7 @@
 import express from 'express'
+import { pool } from '../database.js'
+import bcrypt from 'bcrypt'
+import { generateAccessToken } from '../token.js'
 
 const router = express.Router()
 
@@ -31,16 +34,35 @@ const router = express.Router()
  */
 router.post('/', async (req, res) => {
     try {
-        const email = req.body.email
-        const password = req.body.password
-        const name = req.body.name
-        const phone_number = req.body.phone_number
+        const { email, password, name, phone_number } = req.body
 
-        console.log(email, password, name, phone_number)
-        res.status(200).json({ message: "Success" })
+        // Check if user already exist
+        const result = await pool.query('SELECT (email) FROM users WHERE email = $1', [email])
+        if(result.rows.length > 0) {
+            return res.status(409).json({ message: "User already exist" })
+        }
+        
+        // Hash password
+        const hashPassword = await bcrypt.hash(password, 12)
+
+        // Insert new user
+        const newAccount = await pool.query(
+            'INSERT INTO users (name, phone_number, email, password) VALUES ($1, $2, $3, $4) RETURNING id', 
+            [name, phone_number, email, hashPassword]
+        )
+
+        // Generate Access Token
+        const userId = newAccount.rows[0].id
+        const token = generateAccessToken({
+            id: userId,
+            email: email,
+        })
+        
+        return res.status(201).json({ id: userId, email, token })
         
     } catch (error) {
-        res.status(400).json({ error })
+        console.error(error);
+        return res.status(500).json({ error: error })
     }
 })
 
