@@ -2,7 +2,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from "dotenv"
-import test_route from "./routes/test.js"
+import login_route from "./routes/login.js"
+import register_route from "./routes/register.js"
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { swaggerSpec, swaggerUIOptions } from './swagger.js'
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
     res.status(200).send(`<h4>Express API</h4><a href="${devUrl}" >Documentation</a>`)
 })
 
-app.use('/test', test_route)
+app.use('/login', login_route)
+app.use('/register', register_route)
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`))
