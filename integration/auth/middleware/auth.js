@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 
-const auth = async (req, res, next) => {
+
+const auth = (req, res, next) => {
     try {
-        const token = req.headers.authorization 
+        const token = req.headers.authorization
         jwt.verify(token, process.env.SECRET, (err, user) => {
             if(err) 
                 return res.sendStatus(403)
