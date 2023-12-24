@@ -16,3 +16,10 @@ CREATE TABLE IF NOT EXISTS login_record (
     time TIMESTAMP NOT NULL,
     ip_address VARCHAR(30)
 );
+
+CREATE TABLE refresh_tokens (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER,
+  token VARCHAR(255) UNIQUE NOT NULL,
+  expires_at TIMESTAMP NOT NULL
+);
