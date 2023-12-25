@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vu_diep_1:4
+--changeset vu_diep_1:5
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 ALTER TABLE users ADD COLUMN date_created TIMESTAMP DEFAULT NOW();
 
---changeset vu_diep_2:1
+--changeset vu_diep_2:2
 CREATE TABLE IF NOT EXISTS login_record (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS login_record (
     ip_address VARCHAR(30)
 );
 
---changeset vu_diep_3:1
-CREATE TABLE refresh_tokens (
+--changeset vu_diep_3:2
+CREATE TABLE IF NOT EXISTS refresh_tokens (
   id SERIAL PRIMARY KEY,
   user_id INTEGER,
   token VARCHAR(255) UNIQUE NOT NULL,
