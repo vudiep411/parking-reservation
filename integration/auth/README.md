@@ -1,5 +1,14 @@
 # Auth API
-In this Auth API user can login and register a new account. JWT token will get sent back in a response body
+In this Auth API user can login and register a new account. User will receive a JTW access token and a refresh token. JWT Token will be used in Authorization header to retrieve data from the resource server and refresh token is used to retrieve a new JWT token.
+
+## Architecture / Workflow
+1. User login and receive a JWT token and a refresh token
+2. User can use JWT token to access the resource API server
+3. After the token expired, the refresh token will be used to retrieve a new JWT token 
+
+    <img src="../../documents/auth_workflow.png">
+
+## Schema
 
 ## Installation
 1. Install dependencies
