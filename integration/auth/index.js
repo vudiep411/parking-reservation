@@ -16,7 +16,7 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT
-const devUrl = process.env.DEV == 1 ? 'http://localhost:5001/docs/' : 'https://parking-reservation.vercel.app'
+const devUrl = process.env.DEV == 1 ? 'http://localhost:5001/docs/' : 'https://parking-reservation.vercel.app/docs/'
 
 app.set('title', 'Auth API')
 app.use(bodyParser.json({ limit: "50mb", extended: true}))
