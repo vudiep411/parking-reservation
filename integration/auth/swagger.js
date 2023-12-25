@@ -1,5 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 
+const prodUrl = 'https://parking-reservation.vercel.app'
+
 const swaggerDefinition = {
     openapi: '3.0.0',
     info: {
@@ -13,7 +15,7 @@ const swaggerDefinition = {
     },
     servers: [
       {
-        url: 'http://localhost:5001'
+        url: process.env.DEV == 1 ? 'http://localhost:5001' : prodUrl
       }
     ]
   }
@@ -24,7 +26,7 @@ const swaggerOptions = {
     apis: ['../*.js', '../*/*.js', '../*/routes/*.js'],
     servers: [
       {
-        url: 'http://localhost:5001',
+        url: process.env.DEV == 1 ? 'http://localhost:5001' : prodUrl,
         description: 'Development server'
       }
     ]
