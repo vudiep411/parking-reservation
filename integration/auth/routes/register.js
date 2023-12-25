@@ -1,7 +1,7 @@
 import express from 'express'
 import { pool } from '../database.js'
 import bcrypt from 'bcrypt'
-import { generateAccessToken } from '../token.js'
+import { generateAccessToken, generateRefreshtoken } from '../token.js'
 
 const router = express.Router()
 
@@ -52,13 +52,20 @@ router.post('/', async (req, res) => {
         )
 
         // Generate Access Token
+        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
         const userId = newAccount.rows[0].id
-        const token = generateAccessToken({
-            id: userId,
-            email: email,
-        })
-        
-        return res.status(201).json({ id: userId, email, token })
+        const token = generateAccessToken({ id: userId, email: email })
+        const refreshToken = generateRefreshtoken({ id: userId, refreshToken: true })
+        res.status(201).json({ id: userId, email, token, refreshToken })
+
+        // Save refresh token
+        await pool.query('INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, $3)', [userId, refreshToken, expiresAt]);
+
+         // Save login record into a table
+        const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const timestamp = new Date()
+        await pool.query("INSERT INTO login_record (user_id, time, ip_address) VALUES ($1, $2, $3) RETURNING id", [userId, timestamp, ipAddress])
+        return
         
     } catch (error) {
         console.error(error);

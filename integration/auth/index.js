@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from "dotenv"
 import login_route from "./routes/login.js"
 import register_route from "./routes/register.js"
+import refresh_token_route from "./routes/refresh-token.js"
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { swaggerSpec, swaggerUIOptions } from './swagger.js'
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 
 app.use('/login', login_route)
 app.use('/register', register_route)
+app.use('/refresh-token', refresh_token_route)
 
 // Pass in JWT Token for Authorization Headers to get a user info form this endpoint
 app.get('/test', auth, (req, res) => {
