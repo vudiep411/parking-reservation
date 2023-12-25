@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vu_diep_1:3
+--changeset vu_diep_1:4
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
