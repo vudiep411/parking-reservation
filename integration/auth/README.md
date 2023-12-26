@@ -27,5 +27,40 @@ In this Auth API user can login and register a new account. User will receive a 
 ## Test Auth endpoint
 After testing login and registering, you will get a JWT token. Use postman or any other tools to send a get request to http://localhost:5001/test with the JWT as the Authorization header.
 
-## Deployment
+## Endpoints
+`/register` **POST** 
+```javascript
+// req body
+{ 
+    "email" : "string", 
+    "password": "string",
+    "name" : "string",
+    "phone_number" : "string"
+}
+```
+`/login` **POST**
+```javascript
+// req body
+{ 
+    "email" : "string", 
+    "password": "string",
+}
+```
+
+`/refresh-token` **POST**
+
+```javascript
+{
+  "refresh_token": "string"
+}
+```
+
+`/test` **GET** 
+```javascript
+// Header
+Authorization: "JWT token"
+```
+
+
+## Dev Deployment
 [Link](https://parking-reservation.vercel.app/)
