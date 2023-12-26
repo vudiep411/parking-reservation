@@ -9,13 +9,14 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL
 );
 
---changeset vu_diep_2:1
+--changeset vu_diep_2:2
 CREATE TABLE IF NOT EXISTS parking_spot (
     id VARCHAR(255) PRIMARY KEY,
     status BOOLEAN,
     vehicle_type VARCHAR(255),
     rate DECIMAL(10, 2)
 );
+ALTER TABLE parking_spot ADD COLUMN lot VARCHAR(2) DEFAULT NULL;
 
 --changeset vu_diep_3:1
 CREATE TABLE IF NOT EXISTS reservation (
