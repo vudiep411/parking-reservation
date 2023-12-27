@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { swaggerSpec, swaggerUIOptions } from './swagger.js'
 import swaggerUi from 'swagger-ui-express'
+import reservation_routes from './routes/reservation.js'
+import auth from "./middleware/auth.js"
 
 dotenv.config()
 
@@ -29,7 +31,7 @@ app.use(
 app.get('/', (req, res) => {
     res.status(200).send(`<h4>Express API</h4><a href="${devUrl}" >Documentation</a>`)
 })
-
-app.use('/test', test_route)
+app.use('/reservation', reservation_routes)
+app.use('/test', auth, test_route)
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`))
