@@ -51,7 +51,7 @@ app.MapGet("/available_spots", () =>
     return res;
 })
 .WithName("crime")
-.WithOpenApi()
-.RequireAuthorization("RequireToken");
+.WithOpenApi();
+// .RequireAuthorization("RequireToken");
 
 app.Run();
