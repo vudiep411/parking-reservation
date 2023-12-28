@@ -16,6 +16,6 @@ CREATE TABLE IF NOT EXISTS reservation (
     parking_spot_id VARCHAR(255) NOT NULL,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP  NOT NULL,
-    license_plate VARCHAR(255),
+    license_plate VARCHAR(255)
 );
 
