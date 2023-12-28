@@ -9,8 +9,6 @@ const router = express.Router()
  *   get:
  *     summary: Get all available spots!
  *     tags: [Parking Reservation API]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Success
@@ -103,9 +101,9 @@ router.post('/', async (req, res) => {
         // Insert in database
         const reservation = await pool.query(
             `INSERT INTO reservation 
-            (user_id, parking_spot_id, start_time, end_time, license_plate) 
-            VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-            [user_id, parking_spot_id, start_time, end_time, license_plate]
+            (user_id, parking_spot_id, start_time, end_time, license_plate, status) 
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+            [user_id, parking_spot_id, start_time, end_time, license_plate, "reserved"]
         )
         if (reservation.rows.length > 0) {
             res.status(201).json({ message: 'Reservation successful', reservation: reservation.rows[0] });
