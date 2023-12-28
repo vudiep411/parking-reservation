@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS parking_spot (
     rate DECIMAL(10, 2),
     lot VARCHAR(2)
 );
-CREATE INDEX lot_index ON parking_spot (lot);
 
 --changeset vu_diep_3:1
 CREATE TABLE IF NOT EXISTS reservation (
