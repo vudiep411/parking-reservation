@@ -10,8 +10,5 @@ Designed APIs, schema for a parking reservation system.
 ## CI/CD
 Github action will deploy the new changes made to the database schema and also run tests for APIs
 
-## Schema
-<img src="./documents/schema.png"/>
-
 ## System Design
 <img src="./documents/systemdesign.png"/>

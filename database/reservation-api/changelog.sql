@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS parking_spot (
     lot VARCHAR(2)
 );
 
---changeset vu_diep_3:1
+--changeset vu_diep_3:2
 CREATE TABLE IF NOT EXISTS reservation (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -17,6 +17,5 @@ CREATE TABLE IF NOT EXISTS reservation (
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP  NOT NULL,
     license_plate VARCHAR(255),
-    status VARCHAR(30)
 );
 
