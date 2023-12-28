@@ -2,14 +2,17 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from "dotenv"
-import payment_route from "./routes/payment.js"
-import cancel_route from "./routes/cancel.js"
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import { swaggerSpec, swaggerUIOptions } from './swagger.js'
 import swaggerUi from 'swagger-ui-express'
-import reservation_routes from './routes/reservation.js'
 import auth from "./middleware/auth.js"
+
+import reservation_routes from './routes/reservation.js'
+import payment_route from "./routes/payment.js"
+import cancel_route from "./routes/cancel.js"
+import avalable_route from "./routes/availableSpots.js"
+import parking_spots_route from "./routes/parkingSpot.js"
 
 dotenv.config()
 
@@ -35,5 +38,7 @@ app.get('/', (req, res) => {
 app.use('/reservation', auth, reservation_routes)
 app.use('/payment', auth, payment_route)
 app.use('/cancel', auth, cancel_route)
+app.use('/available_spots', avalable_route)
+app.use('/parking_spots', parking_spots_route)
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`))
