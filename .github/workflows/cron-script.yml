@@ -1,0 +1,33 @@
+name: Delete abandoned branches (Monthly)
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-services-health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install requirements
+        run: |
+          cd database/script
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: login and get token
+        id: login
+        run: |
+          cd database/script
+          TOKEN=$(python login.py)
+          echo "TOKEN=$TOKEN" >> $GITHUB_OUTPUT
+        
+      - name: make and cancel reservation
+        run: |
+          cd database/script
+          python application.py ${{ steps.login.outputs.TOKEN }}
