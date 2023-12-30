@@ -1,4 +1,4 @@
-name: Delete abandoned branches (Monthly)
+name: Run Health Check daily
 on:
   schedule:
     - cron: "0 0 * * *"
