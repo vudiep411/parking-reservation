@@ -61,6 +61,12 @@ After testing login and registering, you will get a JWT token. Use postman or an
 Authorization: "JWT token"
 ```
 
+## Docker
+```
+docker build -t reservation:1 .\integration\auth\
+```
+
+
 
 ## Dev Deployment
 [Link](https://parking-reservation.vercel.app/)
